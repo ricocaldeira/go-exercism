@@ -8,13 +8,13 @@ import "errors"
 // else returns hamming -1 and error
 func Distance(a, b string) (int, error) {
 	if len(a) != len(b) {
-		return -1, errors.New("Error")
+		return -1, errors.New("DNAs need to have same length")
 	}
 
 	distance := 0
 
-	for i := 0; i < len(a); i++ {
-		if a[i] != b[i] {
+	for index := range a {
+		if a[index] != b[index] {
 			distance++
 		}
 	}
