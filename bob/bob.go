@@ -9,9 +9,7 @@ import (
 
 // Hey takes String questions and returns String responses
 func Hey(remark string) string {
-	lastRemarkChar := remark[len(remark)-1 : len(remark)]
-	remark = remark[0 : len(remark)-1]
-	reg, _ := regexp.Compile("[^a-zA-Z0-9]+")
+	reg, _ := regexp.Compile("[^a-zA-Z0-9?]+")
 	remark = reg.ReplaceAllString(remark, "")
 
 	selectedOptions := 0
@@ -19,7 +17,7 @@ func Hey(remark string) string {
 	if isYellin(remark) {
 		selectedOptions++
 	}
-	if isAsking(lastRemarkChar) {
+	if isAsking(remark) {
 		selectedOptions += 2
 	}
 
@@ -43,14 +41,14 @@ func isNumber(remark string) bool {
 }
 
 func isYellin(remark string) bool {
-	if remark == strings.ToUpper(remark) && len(remark) > 0 && !isNumber(remark) {
+	if remark == strings.ToUpper(remark) && len(remark) > 1 && !isNumber(remark) {
 		return true
 	}
 	return false
 }
 
-func isAsking(lastRemarkChar string) bool {
-	if lastRemarkChar == "?" {
+func isAsking(remark string) bool {
+	if strings.HasSuffix(remark, "?") {
 		return true
 	}
 	return false
