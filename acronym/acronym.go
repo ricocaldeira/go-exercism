@@ -7,14 +7,21 @@ import (
 
 // Abbreviate reduces String sentences to String acronyms
 func Abbreviate(s string) string {
-	s = strings.Replace(s, "-", " ", -1)
-	words := strings.Split(s, " ")
+	words := sentenceToWords(s)
+	return acronym(words)
+}
+
+func sentenceToWords(sentence string) []string {
+	sentence = strings.Replace(sentence, "-", " ", -1)
+	return strings.Split(sentence, " ")
+}
+
+func acronym(words []string) string {
 	var acronym string
 
-	for index := range words {
-		acronym += string(words[index][0])
+	for _, word := range words {
+		acronym += string(word[0])
 	}
 
-	acronym = strings.ToUpper(acronym)
-	return acronym
+	return strings.ToUpper(acronym)
 }
