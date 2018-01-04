@@ -19,9 +19,9 @@ var letterScorings = map[string]int{
 func Score(word string) int {
 	word = strings.ToUpper(word)
 	scrabbleScore := 0
-	for index := range word {
-		for key, value := range letterScorings {
-			if strings.ContainsRune(key, rune(word[index])) {
+	for _, char := range word {
+		for letter, value := range letterScorings {
+			if strings.ContainsRune(letter, char) {
 				scrabbleScore += value
 			}
 		}
