@@ -15,23 +15,15 @@ const neptuneYearsInSeconds = earthYearsInSeconds * 164.79132
 // Age takes an age in seconds and a Planet
 // and returns age in years on that planet
 func Age(seconds float64, planet Planet) float64 {
-	switch planet {
-	case "Earth":
-		return seconds / earthYearsInSeconds
-	case "Mercury":
-		return seconds / mercuryYearsInSeconds
-	case "Venus":
-		return seconds / venusYearsInSeconds
-	case "Mars":
-		return seconds / marsYearsInSeconds
-	case "Jupiter":
-		return seconds / jupiterYearsInSeconds
-	case "Saturn":
-		return seconds / saturnYearsInSeconds
-	case "Uranus":
-		return seconds / uranusYearsInSeconds
-	case "Neptune":
-		return seconds / neptuneYearsInSeconds
+	planets := map[Planet]float64{
+		"Earth":   earthYearsInSeconds,
+		"Mercury": mercuryYearsInSeconds,
+		"Venus":   venusYearsInSeconds,
+		"Mars":    marsYearsInSeconds,
+		"Jupiter": jupiterYearsInSeconds,
+		"Saturn":  saturnYearsInSeconds,
+		"Uranus":  uranusYearsInSeconds,
+		"Neptune": neptuneYearsInSeconds,
 	}
-	return 0
+	return seconds / planets[planet]
 }
