@@ -3,13 +3,12 @@ package bob
 
 import (
 	"regexp"
-	"strconv"
 	"strings"
 )
 
 // Hey takes String questions and returns String responses
 func Hey(remark string) string {
-	reg, _ := regexp.Compile("[^a-zA-Z0-9?]+")
+	reg, _ := regexp.Compile("[^a-zA-Z?]+")
 	remark = reg.ReplaceAllString(remark, "")
 
 	selectedOptions := 0
@@ -33,23 +32,10 @@ func Hey(remark string) string {
 	return "Whatever."
 }
 
-func isNumber(remark string) bool {
-	if _, err := strconv.Atoi(remark); err == nil {
-		return true
-	}
-	return false
-}
-
 func isYellin(remark string) bool {
-	if remark == strings.ToUpper(remark) && len(remark) > 1 && !isNumber(remark) {
-		return true
-	}
-	return false
+	return remark == strings.ToUpper(remark) && len(remark) > 1
 }
 
 func isAsking(remark string) bool {
-	if strings.HasSuffix(remark, "?") {
-		return true
-	}
-	return false
+	return strings.HasSuffix(remark, "?")
 }
