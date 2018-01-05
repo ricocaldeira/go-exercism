@@ -12,16 +12,18 @@ func Square(squareNumber int) (uint64, error) {
 	if squareNumber < 1 || squareNumber > 64 {
 		return 0, errors.New("Invalid square number")
 	}
-	var squares uint64
-	squares = uint64(math.Pow(2, float64(squareNumber-1)))
-	return squares, nil
+	return intExp2(squareNumber), nil
 }
 
 // Total returns total uint64 number of grains
 func Total() uint64 {
 	var totalGrains uint64
 	for i := 1; i <= 64; i++ {
-		totalGrains += uint64(math.Pow(2, float64(i-1)))
+		totalGrains += intExp2(i)
 	}
 	return totalGrains
+}
+
+func intExp2(number int) uint64 {
+	return uint64(math.Exp2(float64(number - 1)))
 }
