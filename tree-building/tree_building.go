@@ -1,12 +1,26 @@
 package tree
 
 import (
-	"errors"
 	"fmt"
+	"sort"
 )
 
 type Record struct {
 	ID, Parent int
+}
+
+type Records []Record
+
+func (records Records) Len() int {
+	return len(records)
+}
+
+func (records Records) Less(i, j int) bool {
+	return records[i].ID < records[j].ID
+}
+
+func (records Records) Swap(i, j int) {
+	records[i], records[j] = records[j], records[i]
 }
 
 type Node struct {
@@ -14,91 +28,26 @@ type Node struct {
 	Children []*Node
 }
 
-type Mismatch struct{}
-
-func (m Mismatch) Error() string {
-	return "c"
-}
-
 func Build(records []Record) (*Node, error) {
 	if len(records) == 0 {
 		return nil, nil
 	}
-	root := &Node{}
-	todo := []*Node{root}
-	n := 1
-	for {
-		if len(todo) == 0 {
-			break
+	sort.Sort(Records(records))
+	nodes := make([]*Node, len(records))
+	for i, record := range records {
+		nodes[i] = &Node{ID: record.ID}
+		if i == 0 && (record.ID != 0 || record.Parent != 0) {
+			return nil, fmt.Errorf("invalid root element: ID = %d; ParentID = %d", record.ID, record.Parent)
 		}
-		newTodo := []*Node(nil)
-		for _, c := range todo {
-			for _, r := range records {
-				if r.Parent == c.ID {
-					if r.ID < c.ID {
-						return nil, errors.New("a")
-					} else if r.ID == c.ID {
-						if r.ID != 0 {
-							return nil, fmt.Errorf("b")
-						}
-					} else {
-						n++
-						switch len(c.Children) {
-						case 0:
-							nn := &Node{ID: r.ID}
-							c.Children = []*Node{nn}
-							newTodo = append(newTodo, nn)
-						case 1:
-							nn := &Node{ID: r.ID}
-							if c.Children[0].ID < r.ID {
-								c.Children = []*Node{c.Children[0], nn}
-								newTodo = append(newTodo, nn)
-							} else {
-								c.Children = []*Node{nn, c.Children[0]}
-								newTodo = append(newTodo, nn)
-							}
-						default:
-							nn := &Node{ID: r.ID}
-							newTodo = append(newTodo, nn)
-						breakpoint:
-							for range []bool{false} {
-								for i, cc := range c.Children {
-									if cc.ID > r.ID {
-										a := make([]*Node, len(c.Children)+1)
-										copy(a, c.Children[:i])
-										copy(a[i+1:], c.Children[i:])
-										copy(a[i:i+1], []*Node{nn})
-										c.Children = a
-										break breakpoint
-									}
-								}
-								c.Children = append(c.Children, nn)
-							}
-						}
-					}
-				}
-			}
+		if record.ID == 0 {
+			continue
 		}
-		todo = newTodo
-	}
-	if n != len(records) {
-		return nil, Mismatch{}
-	}
-	if err := chk(root, len(records)); err != nil {
-		return nil, err
-	}
-	return root, nil
-}
-
-func chk(n *Node, m int) (err error) {
-	if n.ID >= m {
-		return fmt.Errorf("Error")
-	}
-	for _, node := range n.Children {
-		err = chk(node, m)
-		if err != nil {
-			return
+		if i != record.ID || record.ID <= record.Parent {
+			return nil, fmt.Errorf("invalid element: ID = %d; ParentID = %d", record.ID, record.Parent)
+		}
+		if parent := nodes[record.Parent]; parent != nil {
+			parent.Children = append(parent.Children, nodes[i])
 		}
 	}
-	return
+	return nodes[0], nil
 }
