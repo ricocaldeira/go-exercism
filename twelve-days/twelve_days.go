@@ -1,6 +1,10 @@
 // Package twelve implements functions to deal with lyrics of 'The Twelve Days of Christmas' song
 package twelve
 
+import (
+	"strings"
+)
+
 type verse struct {
 	number  int
 	content string
@@ -19,11 +23,16 @@ var lyrics = []verse{
 	{10, "On the tenth day of Christmas my true love gave to me, ten Lords-a-Leaping, nine Ladies Dancing, eight Maids-a-Milking, seven Swans-a-Swimming, six Geese-a-Laying, five Gold Rings, four Calling Birds, three French Hens, two Turtle Doves, and a Partridge in a Pear Tree."},
 	{11, "On the eleventh day of Christmas my true love gave to me, eleven Pipers Piping, ten Lords-a-Leaping, nine Ladies Dancing, eight Maids-a-Milking, seven Swans-a-Swimming, six Geese-a-Laying, five Gold Rings, four Calling Birds, three French Hens, two Turtle Doves, and a Partridge in a Pear Tree."},
 	{12, "On the twelfth day of Christmas my true love gave to me, twelve Drummers Drumming, eleven Pipers Piping, ten Lords-a-Leaping, nine Ladies Dancing, eight Maids-a-Milking, seven Swans-a-Swimming, six Geese-a-Laying, five Gold Rings, four Calling Birds, three French Hens, two Turtle Doves, and a Partridge in a Pear Tree."},
+	{13, ""},
 }
 
 // Song returns lyrics to 'The Twelve Days of Christmas' song
 func Song() string {
-	return ""
+	lyricsContent := []string{}
+	for _, verse := range lyrics {
+		lyricsContent = append(lyricsContent, verse.content)
+	}
+	return strings.Join(lyricsContent, "\n")
 }
 
 // Verse takes a verse number and return its content
