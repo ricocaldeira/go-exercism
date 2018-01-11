@@ -23,11 +23,7 @@ var lyrics = []string{
 
 // Song returns lyrics to 'The Twelve Days of Christmas' song
 func Song() string {
-	lyricsContent := []string{}
-	for _, verse := range lyrics {
-		lyricsContent = append(lyricsContent, verse)
-	}
-	return strings.Join(lyricsContent, "\n")
+	return strings.Join(lyrics, "\n")
 }
 
 // Verse takes a verse number and return its content
