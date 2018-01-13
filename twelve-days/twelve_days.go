@@ -26,7 +26,7 @@ func Song() string {
 	return strings.Join(lyrics, "\n")
 }
 
-// Verse takes a verse number and return its content
+// Verse takes a verse number int and return its content String
 func Verse(verse int) string {
 	return lyrics[verse-1]
 }
