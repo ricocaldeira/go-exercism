@@ -12,15 +12,13 @@ var handshakes = map[int]string{
 	8: "jump",
 }
 
-var shakes = []int{16, 8, 4, 2, 1}
-
 // Handshake takes a secret handshake code and returns all matching handshakes
 func Handshake(secret uint) []string {
-	handShake := []string{}
 	if secret == 0 {
 		return []string{}
 	}
 
+	handShake := []string{}
 	binarySecret := strconv.FormatInt(int64(secret), 2)
 
 	for i, val := range binarySecret {
