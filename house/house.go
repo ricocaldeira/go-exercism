@@ -21,24 +21,37 @@ var people = map[int]subject{
 	9:  subject{name: "priest all shaven and shorn", who: "married"},
 	10: subject{name: "rooster that crowed in the morn", who: "woke"},
 	11: subject{name: "farmer sowing his corn", who: "kept"},
-	12: subject{name: "horse and the hound and the horn", who: "belonged"},
+	12: subject{name: "horse and the hound and the horn", who: "belonged to"},
 }
 
+// Verse outputs verse of nursery rhyme
 func Verse(n int) string {
-	// firstVerse := "that lay in the house that Jack built."
-	verses := []string{}
-	person := people[n]
-	verses = append(verses, "This is the "+person.name+"\n")
 	if n == 1 {
 		return "This is the house that Jack built."
 	}
 	if n == 2 {
-		verses = append(verses, "that lay in the house that Jack built.")
+		return "This is the malt\nthat lay in the house that Jack built."
 	}
-
+	verses := []string{}
+	person := people[n]
+	otherPerson := people[n-1]
+	verses = append(verses, "This is the "+person.name+"\n")
+	verses = append(verses, "that "+person.who+" the "+otherPerson.name+"\n")
+	for n > 3 {
+		n--
+		person := people[n]
+		otherPerson := people[n-1]
+		verses = append(verses, "that "+person.who+" the "+otherPerson.name+"\n")
+	}
+	verses = append(verses, "that lay in the house that Jack built.")
 	return strings.Join(verses, "")
 }
 
+// Song outputs nursery rhyme song
 func Song() string {
-	return ""
+	song := []string{}
+	for n := 1; n <= 12; n++ {
+		song = append(song, Verse(n))
+	}
+	return strings.Join(song, "\n\n")
 }
