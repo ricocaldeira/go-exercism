@@ -4,9 +4,6 @@ package pascal
 // Triangle returns pascal triangle for a given size
 func Triangle(size int) [][]int {
 	pascal := [][]int{{1}}
-	if size == 1 {
-		return pascal
-	}
 
 	for i := 1; i < size; i++ {
 		pascal = append(pascal, makeRow(pascal[i-1]))
