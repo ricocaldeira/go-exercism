@@ -2,6 +2,7 @@ package queenattack
 
 import (
 	"errors"
+	"math"
 )
 
 // CanQueenAttack Given the position of two queens on a chess board, indicate whether or not they
@@ -30,5 +31,9 @@ func CanQueenAttack(bQ string, wQ string) (bool, error) {
 		return false, errors.New("Out of board")
 	}
 
+	// same diagonal
+	if math.Abs(float64(bQ[0])-float64(wQ[0])) == math.Abs(float64(bQ[1])-float64(wQ[1])) {
+		return true, nil
+	}
 	return false, nil
 }
