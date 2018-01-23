@@ -20,12 +20,10 @@ import (
 //
 func Transform(oldMap map[int][]string) map[string]int {
 	var newMap = map[string]int{}
-	for key, strCollection := range oldMap {
+	for score, strCollection := range oldMap {
 		for _, str := range strCollection {
 			lowStr := strings.ToLower(str)
-			if _, ok := newMap[lowStr]; !ok {
-				newMap[lowStr] = key
-			}
+			newMap[lowStr] = score
 		}
 	}
 	return newMap
