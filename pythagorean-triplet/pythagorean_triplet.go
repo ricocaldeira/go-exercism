@@ -18,10 +18,23 @@ func Range(min, max int) (triplets []Triplet) {
 		triplet[1] += 4
 		triplet[2] += 5
 	}
-	// triplets = append(triplets, triplet)
+
 	return triplets
 }
 
-func Sum(p int) []Triplet {
-	return nil
+// Sum returns all possible triplets given a sum number
+func Sum(sum int) (triplets []Triplet) {
+	max := sum / 2
+	for a := 1; a <= max; a++ {
+		for b := a; b <= max; b++ {
+			if c := sum - a - b; pyth(a, b, c) {
+				triplets = append(triplets, Triplet{a, b, c})
+			}
+		}
+	}
+	return
+}
+
+func pyth(a, b, c int) bool {
+	return a*a+b*b == c*c
 }
