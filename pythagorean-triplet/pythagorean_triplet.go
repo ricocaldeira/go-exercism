@@ -8,7 +8,7 @@ func Range(min, max int) (triplets []Triplet) {
 	for a := min; a <= max; a++ {
 		for b := a; b <= max; b++ {
 			for c := b; c <= max; c++ {
-				if pyth(a, b, c) {
+				if isPythagorian(a, b, c) {
 					triplets = append(triplets, Triplet{a, b, c})
 				}
 			}
@@ -22,7 +22,7 @@ func Sum(sum int) (triplets []Triplet) {
 	max := sum / 2
 	for a := 1; a <= max; a++ {
 		for b := a; b <= max; b++ {
-			if c := sum - a - b; pyth(a, b, c) {
+			if c := sum - a - b; isPythagorian(a, b, c) {
 				triplets = append(triplets, Triplet{a, b, c})
 			}
 		}
@@ -30,6 +30,6 @@ func Sum(sum int) (triplets []Triplet) {
 	return
 }
 
-func pyth(a, b, c int) bool {
+func isPythagorian(a, b, c int) bool {
 	return a*a+b*b == c*c
 }
