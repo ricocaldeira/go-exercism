@@ -1,4 +1,4 @@
-//Package lsproduct implements functions to calculate series product
+// Package lsproduct implements fuctions to to calculate largest series products
 package lsproduct
 
 // LargestSeriesProduct Given a string of digits,
