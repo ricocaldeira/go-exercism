@@ -18,6 +18,9 @@ func LargestSeriesProduct(series string, n int) (int, error) {
 		if mul > largestProduct {
 			largestProduct = mul
 		}
+		if i+n+1 == len(series) {
+			break
+		}
 	}
 	return largestProduct, nil
 }
