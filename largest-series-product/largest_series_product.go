@@ -8,7 +8,8 @@ import "strconv"
 // substring of digits of length n.
 func LargestSeriesProduct(series string, n int) (int, error) {
 	largestProduct := 0
-	for i := 0; i < len(series); i = i + n {
+	iterations := len(series) - n + 1
+	for i := 0; i < iterations; i = i + n {
 		numbers := series[i : i+n]
 		mul := 1
 		for j := 0; j < len(numbers); j++ {
@@ -17,9 +18,6 @@ func LargestSeriesProduct(series string, n int) (int, error) {
 		}
 		if mul > largestProduct {
 			largestProduct = mul
-		}
-		if i+n+1 == len(series) {
-			break
 		}
 	}
 	return largestProduct, nil
