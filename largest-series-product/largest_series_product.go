@@ -1,24 +1,34 @@
 // Package lsproduct implements fuctions to to calculate largest series products
 package lsproduct
 
-import "strconv"
+import "fmt"
 
 // LargestSeriesProduct Given a string of digits,
 // calculate the largest product for a contiguous
 // substring of digits of length n.
-func LargestSeriesProduct(series string, n int) (int, error) {
-	largestProduct := 0
-	iterations := len(series) - n + 1
-	for i := 0; i < iterations; i = i + n {
-		numbers := series[i : i+n]
-		mul := 1
-		for j := 0; j < len(numbers); j++ {
-			intNum, _ := strconv.Atoi(numbers[j : j+1])
-			mul = mul * intNum
+func LargestSeriesProduct(digits string, span int) (int64, error) {
+	if span < 0 {
+		return 0, fmt.Errorf("span is negative: %d", span)
+	}
+	if len(digits) < span {
+		return 0, fmt.Errorf("len(%s) < span: %d < %d", digits, len(digits), span)
+	}
+	v := make([]int64, len(digits))
+	for i, r := range digits {
+		if r < '0' || r > '9' {
+			return 0, fmt.Errorf("input %q contains non-digits", digits)
 		}
-		if mul > largestProduct {
-			largestProduct = mul
+		v[i] = int64(r - '0')
+	}
+	maxsp := int64(0)
+	for i, last := 0, len(v)-span+1; i < last; i++ {
+		sp := int64(1)
+		for _, d := range v[i : i+span] {
+			sp *= d
+		}
+		if sp > maxsp {
+			maxsp = sp
 		}
 	}
-	return largestProduct, nil
+	return maxsp, nil
 }
