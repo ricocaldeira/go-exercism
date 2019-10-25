@@ -1,17 +1,22 @@
 package wordcount
 
-import "strings"
+import (
+	"regexp"
+	"strings"
+)
 
 // Frequency maps words and ocurrencies count
 type Frequency map[string]int
 
 // WordCount counts words frequency and returns Frequency type
 func WordCount(phrase string) Frequency {
-	words := strings.Split(phrase, " ")
 	frequency := Frequency{}
+	phrase = strings.ToLower(phrase)
 
-	for _, word := range words {
+	regexp := regexp.MustCompile(`[\d\w]+'\w+|[\d\w]+`)
+	for _, word := range regexp.FindAllString(phrase, -1) {
 		frequency[word]++
 	}
+
 	return frequency
 }
